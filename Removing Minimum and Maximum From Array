@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int minimumDeletions(vector<int>& nums) {
+        int n = nums.size();
+
+        // Find indices of minimum and maximum elements
+        int minIndex = 0, maxIndex = 0;
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] < nums[minIndex]) {
+                minIndex = i;
+            }
+            if (nums[i] > nums[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+        //  Ensure minIndex is less than maxIndex for easier calculation
+        if (minIndex > maxIndex) {
+            swap(minIndex, maxIndex);
+        }
+
+        // Calculate deletions for three strategies
+        int deleteFromFront = maxIndex + 1;
+        int deleteFromBack = n - minIndex;
+        int deleteMixed = (minIndex + 1) + (n - maxIndex);
+
+        //  Return the minimum of the three strategies
+        return min({deleteFromFront, deleteFromBack, deleteMixed});
+    }
+};
